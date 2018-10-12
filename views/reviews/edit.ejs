@@ -1,0 +1,69 @@
+<% include ../partials/header %>
+
+<div class="container" style="max-width: 600px; padding-top:1em" >
+
+    <h1 style="text-align: center">Edit review for <%=beastName%></h1>
+    <br>
+    
+      <form action="/beasts/<%=beastId%>/reviews/<%=review._id%>?_method=PUT" method="POST">  <!-- action name must match with route name of the POST req route -->
+ 
+ <!-- RATING STARS -->
+        <div class="form-group" >
+            <fieldset class="starability-basic form-group" id="rating">
+                <legend>Leave a rating</legend>
+                <div>
+                <input type="radio" id="rate5" name="rv[rating]" value="5" <% if(review.rating === 5){%> checked <% } %>  />
+                <label for="rate5" title="5 stars - Amazing">
+                    <%- '<span class="fa fa-star  checked"></span>'.repeat(5) %>
+                </label>
+                </div>
+ 
+                <div>
+                <input type="radio" id="rate4" name="rv[rating]" value="4" <% if(review.rating === 4){%> checked <% } %>  />
+                <label for="rate4" title="4 stars - Very good">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(4) %>
+                </label>
+                </div>
+
+                <div>
+                <input type="radio" id="rate3" name="rv[rating]" value="3" <% if(review.rating === 3){%> checked <% } %>  />
+                <label for="rate3" title="3 stars - Average">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(3) %>
+                </label>
+                </div>
+
+                <div>
+                <input type="radio" id="rate2" name="rv[rating]" value="2" <% if(review.rating === 2){%> checked <% } %>  />
+                <label for="rate2" title="2 stars - Poor">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(2) %>
+                </label>
+                </div>
+
+                <div>
+                <input type="radio" id="rate1" name="rv[rating]" value="1" <% if(review.rating === 1){%> checked <% } %>  />
+                <label for="rate1" title="1 stars - Terrible">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(1) %>
+                </label>
+                </div>
+
+            </fieldset>
+        </div>
+
+<!-- REVIEW TEXT -->     
+        <div class="form-group">
+          <textarea class="form-control" name='rv[text]' rows="5" style="margin: auto" ><%=review.text%></textarea>
+        </div>
+  
+        <button class="submit-button btn btn-md btn-primary btn-block"  style="margin: auto">submit</button>
+          
+      </form> 
+      
+      <br>
+      <a href="/beasts/<%=beastId%>">Go Back</a>
+
+</div>
+
+<% include ../partials/footer %>
+
+
+  

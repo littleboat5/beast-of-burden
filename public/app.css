@@ -1,0 +1,51 @@
+.main-color {
+    background-color: #ecebeb;
+}
+
+.beast-detail{
+    margin-top: 1em;
+}
+
+#banner{
+    background-image: url("https://assets.answersingenesis.org/img/cms/content/contentnode/header_image/am/v10/n2/yaks-header.jpg");
+    border-radius: 0;
+    color: #fff;
+}
+    
+.navbar{
+    background-color: #4a4a4a;
+}
+
+.fa-check {
+    color: green;
+}
+
+.fa-times {
+    color: red;
+}
+.fa-star {
+    color: #b8bbbd;
+}
+.fa-star.checked {
+    color: #ffc107;
+}
+
+#deletecomment, #deletebeast {
+    display: inline;
+}
+
+textarea, .submit-button, .form-control, form-check-input, fieldset { 
+   max-width: 600px;
+}
+
+.collapse {
+    color: #676666;
+}
+
+
+
+/* Google Maps */
+#map {
+    height: 400px;
+    width: 100%;
+}

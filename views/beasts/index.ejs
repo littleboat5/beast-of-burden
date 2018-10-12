@@ -1,0 +1,98 @@
+<% include ../partials/header %>
+
+
+
+<!-------- main content ----------->
+    <div id="banner" class="jumbotron">
+        <div class='container'>
+            <h1>Beast of Burden at your service</h1>
+            <p>Hire or own a beast of burden for your next wild adventure!</p>
+            <p><a class="btn btn-success" href="/beasts/new">Add new beast</a></p>
+        </div>
+    </div>
+
+<div class='container'>
+    <div class="row" >
+
+        <% beasts.forEach( function(bb) { %>
+            <div class="col-xs-6 col-sm-4 col-lg-3">
+                <figure class="figure">
+                    <img class="figure-img img-fluid img-thumbnail" src="<%= bb.image %>" > 
+                    <figcaption class="figure-caption">Meet <strong><%= bb.name %></strong> the <%= bb.type %> from <%= bb.region %></figcaption>
+                </figure>
+                <p><a class="btn btn-info btn-sm" href="/beasts/<%=bb._id%>">More info</a></p>
+            </div>
+        <% } ); %>
+
+    </div>
+
+<!--Pagination-->
+    <% if (totalPages && totalPages > 0) { %>
+
+        <nav aria-label="Beast index">
+
+            <ul class="pagination justify-content-center">
+            <% if (currPage == 1) { %>
+                <li class="page-item disabled"><a class="page-link" >First</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts">First</a></li>
+            <% } %>
+     
+            <% if (currPage == 1) { %>
+                <li class="page-item disabled"><a class="page-link">«</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts?page=<%= Number(currPage) - 1 %>">«</a></li>
+            <% } %>
+     
+            <% var maxShown = 5; %> <!-- if this is 5, show 12345, 23456 etc.., if this is 3, show 123, 456, 678 etc. -->
+     
+            <% if ( currPage > maxShown ) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+
+            <% var lastPgNum; %> <!-- store the last page # on the current page bar-->
+            <% var beginPgNum; %> <!--left most page # to show on the page bar. If maxShown is 5 and currPage is 7, the beginPgNum should be 6 so the bar shows 678910  -->
+            <% if ( Number(currPage) % maxShown > 0 ) { %>
+                <% beginPgNum = Number(currPage) - (Number(currPage) % maxShown) + 1 ; %>
+            <% } else { %>
+                <% beginPgNum = Number(currPage) - maxShown + 1; }  %>
+        
+            <% for (var i=0; i < maxShown; i++) { %>
+                <% var j = beginPgNum + i; %>
+                
+                <% if (j <= totalPages) { %>
+                    <% if (j == currPage) { %>
+                        <li class="page-item active"><a class="page-link"><%= j %></a></li>
+                    <% } else { %>
+                        <li class="page-item page-item"><a class="page-link" href="/beasts?page=<%= j %>"><%= j %></a></li>
+                    <% } %>
+                <% } %>
+                
+                <% lastPgNum = j; %>
+            <% } %>
+            
+            <% if (lastPgNum < totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+     
+            <% if (currPage == totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">»</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts?page=<%= Number(currPage) + 1 %>">»</a></li>
+            <% } %>
+     
+            <% if (currPage == totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts?page=<%= totalPages %>">Last</a></li>
+            <% } %>
+        </ul>
+        </nav>
+    <% } %>
+    
+
+<!--end of Pagination-->
+ </div> <!-- end container div -->
+   
+
+<% include ../partials/footer %>

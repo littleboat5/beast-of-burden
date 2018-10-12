@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+
+<div class='container'>
+
+    <h1 style="text-align: center">Share your experience with <%=beastName%></h1>
+    
+    
+      <form action="/beasts/<%=beastId%>/comments/<%=comment._id%>?_method=PUT" method="POST">  <!-- action name must match with route name of the POST req route -->
+      
+        <div class="form-group">
+          <textarea class="form-control" name='comm[text]' rows="5" style="margin: auto" ><%=comment.text%></textarea>
+        </div>
+  
+       <button class="submit-button btn btn-md btn-primary btn-block"  style="margin: auto">submit</button>
+          
+      </form> 
+      
+      <br>
+      <a href="/beasts/<%=beastId%>">Go Back</a>
+
+</div>
+
+<% include ../partials/footer %>
+
+
+  

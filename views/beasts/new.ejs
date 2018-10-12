@@ -1,0 +1,85 @@
+<% include ../partials/header %>
+
+<div class='container'>
+
+    <h1 style="text-align: center">Add New Beast of Burden</h1>
+    
+    <div style="margin:30px auto">
+    
+      <form action="/beasts" method="POST">  <!-- action name must match with route name of the POST req route -->
+      
+      <!-- Name of Beast -->
+        <div class="form-group">
+          <label for="nameId">Name of the beast</label>
+          <input type="text" class=" form-control" id="nameId" name='name'>
+        </div>
+
+      <!-- Type of Beast -->
+        <div class="form-group">
+                  <label for="typeId">Type</label>
+                  <select class=" form-control" id="typeId" name='type'>
+                    <option>yak</option>
+                    <option>camel</option>
+                    <option>mule</option>
+                    <option>stallion</option>
+                    <option>llama</option>
+                  </select>
+        </div>
+      
+      <!-- Region -->
+        <div class=" form-group">
+          <label for="regionId" class=" ">Region</label>
+                  <select class=" form-control" id="regionId" name='region'>
+                    <option>Tibet</option>
+                    <option>Pamir</option>
+                    <option>Mongolia</option>
+                    <option>Taklamakan</option>
+                    <option>Sahara</option>
+                    <option>Andes</option>
+                  </select>
+        </div>
+  
+      <!-- Location of Beast -->
+        <div class="form-group">
+          <label for="locId" class=" ">Location/serving area of the beast</label>
+          <input type="text" class=" form-control" id="locId" name='location'>
+        </div>
+        
+      <!-- available for rent/buy -->
+        <div class="form-group">
+          <input class=" form-check-input" type="checkbox" value='true' id="rentId" name='rent'>
+          <label class=" form-check-label" for="rentId">Available for hire</label>
+        </div>
+        <div class="form-group">
+          <input class=" form-check-input" type="checkbox" value='true' id="buyId" name='buy'>
+          <label class=" form-check-label" for="buyId">Available for purchase</label>
+        </div>
+  
+      <!-- Description -->
+        <div class="form-group">
+          <label for="descId">Description</label>
+          <textarea class=" form-control" id="descId" name='description'></textarea>
+        </div>
+
+      <!-- Image url of Beast -->
+       <div class="form-group">
+          <label for="imageId">Picture of the beast</label>
+          <input type="text" class=" form-control" id="imageId" name='image'>
+        </div>
+  
+       <button class="submit-button btn btn-md btn-primary btn-block">submit</button>
+          
+      </form> 
+      <br>
+      <a href="/beasts">Go Back</a>
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
+
+<% include ../partials/footer %>

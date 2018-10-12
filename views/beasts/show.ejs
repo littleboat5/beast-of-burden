@@ -1,0 +1,193 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="beast-detail row">
+        
+<!-- SIDE BAR - occupies 3/12 of the width-->
+        <div class="col-md-3">
+
+            <div class="accordion" id="sidebar">
+ <!-- pricing info -->
+              <div class="card">
+                <div id="headingOne">
+                <!--<div class="card-header" id="headingOne">-->
+                  <h5 class="mb-0">
+                    <!--<button class="list-group-item list-group-item-action" type="button" data-toggle="collapse" data-target="#priceinfo" aria-expanded="true" aria-controls="priceinfo">-->
+                     <a class="list-group-item list-group-item-action" role="button" data-toggle="collapse" data-target="#priceinfo" aria-expanded="true" aria-controls="priceinfo">
+                     Price Info
+                    </a>
+                  </h5>
+                </div>
+            
+                <div id="priceinfo" class="collapse " aria-labelledby="headingOne" data-parent="#sidebar">
+                  <div class="card-body mb-1">
+                    <p>Please reach out to the contact person for pricing details.</p>
+                  </div>
+                </div>
+              </div>            
+<!-- contact info -->
+              <div class="card">
+                <div id="headingTwo">
+                  <h5 class="mb-0">
+                    <a class="list-group-item list-group-item-action" role="button" data-toggle="collapse" data-target="#contactdetail" aria-expanded="true" aria-controls="contactdetail">
+                      Contact Details
+                    </a>
+                  </h5>
+                </div>
+            
+                <div id="contactdetail" class="collapse " aria-labelledby="headingTwo" data-parent="#sidebar">
+                  <div class="card-body mb-3">
+                    <% if(contact && contact.contactname) { %>
+                        <li class="card-text"><%= contact.contactname%></li>
+                    <% }%>    
+                    <% if(contact && contact.email) { %>
+                        <li class="card-text"><%= contact.email%></li>
+                    <% }%>    
+                    <% if(contact && contact.phone) { %>
+                        <li class="card-text"><%= contact.phone%></li>
+                    <% }%>    
+                    <% if(contact && contact.address) { %>
+                        <li class="card-text"><%= contact.address%></li>
+                    <% }%>    
+                    </div>
+                </div>
+              </div>   
+            </div>  
+
+<!-- MAP -->
+            <br>
+            <div id="map"></div>
+        </div>
+
+<!-- MAIN AREA - occupies 9/12 of the width-->
+        <div class="col-md-9">
+            <div class="card border-0" >
+                <img class="card-img-top "  src="<%= beast.image%>" >
+                <div class="card-body">
+                    <h5 class="float-right">
+                        Buy 
+                        <% if (beast.buy == true) {%><i class="fa fa-check " aria-hidden="true"></i>
+                        <% } else {%><i class="fa fa-times" aria-hidden="true"></i>
+                        <% } %>
+                        Hire
+                        <% if (beast.rent == true) {%><i class="fa fa-check" aria-hidden="true"></i>
+                        <% } else {%><i class="fa fa-times" aria-hidden="true"></i>
+                        <% } %>
+                    </h5>
+                    <h5 class="card-title"><%= beast.name%> is a <%= beast.type%> from <%= beast.region%></h5>
+<!-- Rating stars -->                        
+                    <% if (beast.rating === 0) { %>
+                        <h6><a href="/beasts/<%=beast._id%>/reviews/new">Be the first to review <%= beast.name%>!</a></h6>
+                    <% } else { %>
+                        <p>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star <% if (beast.rating > 1.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (beast.rating > 2.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (beast.rating > 3.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (beast.rating > 4.5) { %> checked <% } %>"></span>
+                            <em>(total <a href="#reviewSection">reviews</a>: <%= beast.reviews.length%>)</em>
+                        </p>
+                    <% } %>
+                    
+                    <br>
+                    <p class="card-text"><%=beast.description%></p>
+                </div>
+
+<!-- EDIT/DELETE BEAST BUTTONS -->                
+        <!-- check user permission -->        
+                <% if ( currUser && beast.contactId.equals(currUser._id) ) { %>
+                    <div class="card-body">
+                        <a class="btn btn-warning" href="/beasts/<%=beast._id%>/edit">Edit Beast Details</a>
+                        <form id="deletebeast" action="/beasts/<%=beast._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Remove Beast</button>
+                        </form>
+                    </div>
+                <% }%>
+            </div>
+
+<!-- REVIEWS SECTION -->            
+            <br>
+            <% if (beast.rating > 0) { %>
+
+            <div id="reviewSection" class="card bg-light mb-3">
+                <div class="card-header ">
+                    <div class="float-left"><h5>Latest reviews:</h5></div>
+                    <div class="float-right">
+                    <a class="btn btn-primary btn-lg" href="/beasts/<%=beast._id%>/reviews/new">Write a review</a>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <% var numRvShown = 3; %>
+                    <% beast.reviews.slice(0, numRvShown).forEach( function(review){ %> 
+                        <p class="card-title">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="far fa-star"></span>'.repeat(5 - review.rating) %>
+                            <em>Review by <strong><%=review.author.username%> </strong>
+                            <span class="float-right"><small class="text-muted"><%=review.updatedAt.toDateString()%></small></span></em>
+                        </p>
+                        
+                        <p class="card-text">
+<!--EDIT & DELETE comment -->
+                            <!--check user permission -->
+                            <% if ( currUser && review.author.id.equals(currUser._id) ) { %>
+                                <form id="deletereview" action="/beasts/<%=beast._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                                    <a class="btn-outline-info" href="/beasts/<%=beast._id%>/reviews/<%=review._id%>/edit" title="Edit review">
+                                        <i class="fas fa-edit "></i></a> 
+                                    <a class="btn-outline-danger" href="javascript:$('#deletereview').submit();"  title="Delete review" >
+                                        <i class="fas fa-trash-alt "></i></a>
+                                </form>
+                            <% } %>
+                            <%=review.text%>
+                        </p>
+                        <hr>
+                    <% }); %> <!-- end of forEach loop -->
+                </div>
+                
+                <% if( beast.reviews.length > numRvShown ) { %>
+                    <div class="card-footer">
+                        <h4><a href="/beasts/<%= beast._id %>/reviews">See all <%= beast.reviews.length%> reviews <i class="fas fa-caret-right fa-sm"></i></a></h4>
+                    </div>
+                <% } %>
+              
+            </div>
+            <% } %>
+        
+            <div class="card mb-3 border-0 " style="background-color: #ecebeb; padding-left: 1em">
+                <a href="/beasts">Go Back</a>
+            </div>
+         
+            
+        </div>
+    </div>
+</div>
+
+<script>
+  function initMap() {
+    var lat = <%= beast.lat %>;
+    var lng = <%= beast.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= beast.name %><br />
+      <%= beast.location %></strong>
+      <p><%= beast.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBz7kwgcZwcx6GJOOoCI-BR52IYWK63g6I&callback=initMap"></script>
+
+<% include ../partials/footer %>

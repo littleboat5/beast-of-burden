@@ -1,0 +1,68 @@
+<% include ../partials/header %>
+
+<div class="container" style="max-width: 600px; padding-top:1em" >
+
+    <h1 style="text-align: center">New review for <%=beastName%></h1>
+    <br>
+    
+    <form action="/beasts/<%=beastId%>/reviews" method="POST">  <!-- action name must match with route name of the POST req route -->
+
+<!-- RATING STARS -->
+        <div class="form-group" >
+            <fieldset class="starability-basic form-group" id="rating">
+                <legend>Leave a rating</legend>
+                <div>
+                <input type="radio" id="rate5" name="review[rating]" value="5" checked />
+                <label for="rate5" title="5 stars - Amazing">
+                    <%- '<span class="fa fa-star  checked"></span>'.repeat(5) %>
+                </label>
+                </div>
+ 
+                <div>
+                <input type="radio" id="rate4" name="review[rating]" value="4"  />
+                <label for="rate4" title="4 stars - Very good">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(4) %>
+                </label>
+                </div>
+
+                <div>
+                <input type="radio" id="rate3" name="review[rating]" value="3"  />
+                <label for="rate3" title="3 stars - Average">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(3) %>
+                </label>
+                </div>
+
+                <div>
+                <input type="radio" id="rate2" name="review[rating]" value="2"  />
+                <label for="rate2" title="2 stars - Poor">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(2) %>
+                </label>
+                </div>
+
+                <div>
+                <input type="radio" id="rate1" name="review[rating]" value="1"  />
+                <label for="rate1" title="1 stars - Terrible">
+                    <%- '<span class="fa fa-star checked"></span>'.repeat(1) %>
+                </label>
+                </div>
+
+            </fieldset>
+        </div>
+
+<!-- REVIEW TEXT -->
+        <div class="form-group">
+          <textarea class="form-control" name='review[text]' rows="5" style="margin: auto" placeholder="Leave a review" ></textarea>
+        </div>
+  
+        <button class="submit-button btn btn-md btn-primary btn-block"  style="margin: auto">submit</button>
+          
+    </form> 
+    <br>
+    <a href="/beasts/<%=beastId%>">Go Back</a>
+
+</div>
+
+<% include ../partials/footer %>
+
+
+  

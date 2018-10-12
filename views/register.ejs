@@ -1,0 +1,41 @@
+<% include ./partials/header %>
+
+<div class='container'>
+
+    <div class="card bg-light mb-3" style="width:70%; margin:10px auto" >
+        <div class="card-header text-center">
+            <h4>Sign up</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text"  name="username"  placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="user[contactname]" placeholder="Contact name">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="user[email]" placeholder="Contact email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="user[phone]" placeholder="Contact phone number">
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name='user[address]' placeholder="Contact address"></textarea>
+                </div>
+                <button class="submit-button  btn btn-primary btn-lg btn-block">Register</button>
+            </form>
+        </div>
+        <div class="card-footer">
+           <a href="/beasts">Go Back</a>
+        </div>
+    </div>
+
+</div>
+
+<% include ./partials/footer %>

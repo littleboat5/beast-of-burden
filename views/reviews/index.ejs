@@ -1,0 +1,134 @@
+<% include ../partials/header %>
+
+<div class='beast-detail container'>
+
+<!-- Top row showing minimal beast info -->   
+    <div class="row" >
+        
+        <div class="col-md-3" style="padding: 0"> <!-- limit the beast image to 3/12 of width -->
+            <figure class="figure">
+                <img class="figure-img img-fluid img-thumbnail" src="<%= beast.image %>" > 
+            </figure>
+        </div>
+
+        <div class="col-md-9"> <!-- 9/12 of width dedicates to beast name and region -->
+            <div style="padding: 10% 0">
+                <a href="/beasts/<%=beast._id%>"><h3><%= beast.name %> the <%= beast.type %> from <%= beast.region %></h3></a>
+                <!--<a class="btn btn-primary btn-lg" href="/beasts/<%=beast._id%>/reviews/new">Write a review</a>-->
+            </div>
+        </div>
+
+    </div>
+
+<!-- Main area showing all the reviews -->
+    <div class="row" >
+        <div class="col-md-12 card bg-light mb-3" style="padding:0">
+            <div class="card-header ">
+                <div class="float-left"><h5>Total number of reviews: <%= beast.reviews.length %></h5></div>
+                <div class="float-right">
+                <!--<a class="btn btn-primary btn-lg" href="/beasts/<%=beast._id%>/reviews/new">Write a review</a>-->
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <% reviews.forEach( function(review){ %> 
+                    <p class="card-title">
+                        <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="far fa-star"></span>'.repeat(5 - review.rating) %>
+                        <em>Review by <strong><%=review.author.username%> </strong>
+                        <span class="float-right"><small class="text-muted"><%=review.updatedAt.toDateString()%></small></span></em>
+                    </p>
+                    
+                    <p class="card-text">
+<!--EDIT & DELETE comment -->
+                        <!--check user permission -->
+                        <% if ( currUser && review.author.id.equals(currUser._id) ) { %>
+                            <form id="deletereview" action="/beasts/<%=beast._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                                <a class="btn-outline-info" href="/beasts/<%=beast._id%>/reviews/<%=review._id%>/edit" title="Edit review">
+                                    <i class="fas fa-edit "></i></a> 
+                                <a class="btn-outline-danger" href="javascript:$('#deletereview').submit();"  title="Delete review" >
+                                    <i class="fas fa-trash-alt "></i></a>
+                            </form>
+                        <% } %>
+                        <%=review.text%>
+                    </p>
+                    <hr>
+                <% }); %> <!-- end of forEach loop -->
+
+<!--Pagination-->
+<% if (totalPages && totalPages > 1) { %>
+
+    <nav aria-label="Reviews index">
+        <ul class="pagination justify-content-center">
+            <% if (currPage == 1) { %>
+                <li class="page-item disabled"><a class="page-link" >First</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts/<%= beast._id %>/reviews">First</a></li>
+            <% } %>
+     
+            <% if (currPage == 1) { %>
+                <li class="page-item disabled"><a class="page-link">«</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts/<%= beast._id %>/reviews?page=<%= Number(currPage) - 1 %>">«</a></li>
+            <% } %>
+
+            <% var maxShown = 3; %> <!-- if this is 5, show 12345, 23456 etc.., if this is 3, show 123, 456, 678 etc. -->
+     
+            <% if ( currPage > maxShown ) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+
+            <% var lastPgNum; %> <!-- store the last page # on the current page bar-->
+            <% var beginPgNum; %> <!--left most page # to show on the page bar. If maxShown is 5 and currPage is 7, the beginPgNum should be 6 so the bar shows 678910  -->
+            <% if ( Number(currPage) % maxShown > 0 ) { %>
+                <% beginPgNum = Number(currPage) - (Number(currPage) % maxShown) + 1 ; %>
+            <% } else { %>
+                <% beginPgNum = Number(currPage) - maxShown + 1; }  %>
+        
+            <% for (var i=0; i < maxShown; i++) { %>
+                <% var j = beginPgNum + i; %>
+                
+                <% if (j <= totalPages) { %>
+                    <% if (j == currPage) { %>
+                        <li class="page-item active"><a class="page-link"><%= j %></a></li>
+                    <% } else { %>
+                        <li class="page-item page-item"><a class="page-link" href="/beasts/<%= beast._id %>/reviews?page=<%= j %>"><%= j %></a></li>
+                    <% } %>
+                <% } %>
+                
+                <% lastPgNum = j; %>
+            <% } %>
+            
+            <% if (lastPgNum < totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+     
+            <% if (currPage == totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">»</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts/<%= beast._id %>/reviews?page=<%= Number(currPage) + 1 %>">»</a></li>
+            <% } %>
+     
+            <% if (currPage == totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/beasts/<%= beast._id %>/reviews?page=<%= totalPages %>">Last</a></li>
+            <% } %>
+
+        </ul>
+    </nav>              
+<% } %>
+<!--end Pagination-->
+                
+            </div>
+        </div>
+    </div>    
+
+    <div class="row border-0">
+        <div class="card mb-3 border-0 " style="background-color: #ecebeb; ">
+            <a href="/beasts/<%=beast._id%>">Go Back</a>
+        </div>
+    </div>    
+    
+</div>
+
+<% include ../partials/footer %>
