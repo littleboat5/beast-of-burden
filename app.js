@@ -13,9 +13,9 @@ var passport = require("passport");
 var localStrategy = require("passport-local"); 
 /*===============  end authentication related code =============== */
 
-// mongoose.connect("mongodb://localhost/yelp_beast2");
-// mongoose.connect("mongodb://localhost:27017/yelp_beast2");
-mongoose.connect("mongodb://admin:beast1@ds045507.mlab.com:45507/yelpbeast");
+mongoose.connect(process.env.DATABASEURL);
+//mongodb://localhost:27017/yelp_beast2
+//mongodb://admin:beast1@ds045507.mlab.com:45507/yelpbeast
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname+"/public")); //so the server also serves the public dir where app.css is
