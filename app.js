@@ -13,9 +13,10 @@ var passport = require("passport");
 var localStrategy = require("passport-local"); 
 /*===============  end authentication related code =============== */
 
-mongoose.connect(process.env.DATABASEURL);
-//mongodb://localhost:27017/yelp_beast2
-//mongodb://admin:beast1@ds045507.mlab.com:45507/yelpbeast
+//enviroment variable DATABASEURL is set on Heroku, if can't find it, must be running on cloud9 
+var dburl = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_beast2";
+console.log(dburl);
+mongoose.connect(dburl);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname+"/public")); //so the server also serves the public dir where app.css is

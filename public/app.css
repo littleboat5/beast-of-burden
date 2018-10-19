@@ -42,7 +42,9 @@ textarea, .submit-button, .form-control, form-check-input, fieldset {
     color: #676666;
 }
 
-
+li.card-text {
+    list-style: none;
+}
 
 /* Google Maps */
 #map {
