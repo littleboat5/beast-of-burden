@@ -74,7 +74,8 @@
                         <% } else {%><i class="fa fa-times" aria-hidden="true"></i>
                         <% } %>
                     </h5>
-                    <h5 class="card-title"><%= beast.name%> is a <%= beast.type%> from <%= beast.region%></h5>
+                    <h5 class="card-title"><%= beast.name%>, a <%= beast.type%> that serves the <%= beast.region%> region</h5>
+                    <p><em>submitted by <%=contact.username%></em></p>
 <!-- Rating stars -->                        
                     <% if (beast.rating === 0) { %>
                         <h6><a href="/beasts/<%=beast._id%>/reviews/new">Be the first to review <%= beast.name%>!</a></h6>
@@ -118,7 +119,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <% var numRvShown = 3; %>
+                    <% var numRvShown = 5; %>
                     <% beast.reviews.slice(0, numRvShown).forEach( function(review){ %> 
                         <p class="card-title">
                             <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="far fa-star"></span>'.repeat(5 - review.rating) %>
@@ -188,6 +189,6 @@
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBz7kwgcZwcx6GJOOoCI-BR52IYWK63g6I&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSgfZrnnFbaKcDze-hl6k4A3zgaK3IW1g&callback=initMap"></script>
 
 <% include ../partials/footer %>

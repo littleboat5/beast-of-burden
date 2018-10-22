@@ -29,7 +29,7 @@ var geocoder = NodeGeocoder(options);
 
 /**** INDEX route - show all beasts *****/    
 router.get('/', function(req, res){
-    var perPage = 6;  // # of beasts to be displayed per page
+    var perPage = 8;  // # of beasts to be displayed per page
     var currPage = req.query.page || 1;  // current page, if none is set, then it is page 1
 
     Beast.find({}) 
